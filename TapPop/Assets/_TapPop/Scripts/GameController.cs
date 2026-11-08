@@ -128,7 +128,7 @@ namespace TapPop
 
             if (!won)
             {
-                losePopup.Show(LevelNumber, 0, score, "Try again", $"Goal {Level.goalCount - goalLeft}/{Level.goalCount}");
+                losePopup.Show(LevelNumber, 0, score, "Try again", $"Level {LevelNumber} · Goal {Level.goalCount - goalLeft}/{Level.goalCount}");
                 yield break;
             }
 

@@ -31,7 +31,7 @@ namespace TapPop.EditorTools
         static readonly Color Paper = Hex("F2F2F2");
         static readonly Color Surface = Color.white;
         static readonly Color Ink = Hex("0A0A0A");
-        static readonly Color Muted = Hex("8E8E8E");
+        static readonly Color Muted = Hex("4D4D4D");   // labels: 7.5:1 on paper, so they do not blend into the grey
         static readonly Color StarEmpty = Hex("DDDDDD");
 
         // Level curve, tuned by simulating thousands of games per level: one move fewer or one tile more each time,
@@ -102,7 +102,7 @@ namespace TapPop.EditorTools
             Place(footer.rectTransform, new Vector2(0.5f, 0f), new Vector2(0f, 150f), new Vector2(400f, 50f));
             Wire(hud, "levelText", footer);
             StartScreen start = BuildStartScreen(canvas, buttonPrefab, game, levels.Count);
-            ResultPopup win = BuildPopup(canvas, buttonPrefab, game, "WinPopup", "Level complete", true);
+            ResultPopup win = BuildPopup(canvas, buttonPrefab, game, "WinPopup", "Level {0} complete", true);
             ResultPopup lose = BuildPopup(canvas, buttonPrefab, game, "LosePopup", "Out of moves", false);
             PopFx fx = BuildFx(canvas);
             Sfx sfx = BuildSfx();
@@ -114,6 +114,8 @@ namespace TapPop.EditorTools
             Wire(board, "sfx", sfx);
             Wire(win, "fx", fx);
             Wire(lose, "fx", fx);
+            Wire(win, "sfx", sfx);
+            Wire(lose, "sfx", sfx);
             WireArray(game, "levels", levels);
             Wire(game, "tileSet", tileSet);
             Wire(game, "board", board);
@@ -364,7 +366,8 @@ namespace TapPop.EditorTools
             return path;
         }
 
-        static ResultPopup BuildPopup(RectTransform canvas, GameObject buttonPrefab, GameController game, string name, string title, bool withStars)
+        // titleFormat: {0} is the level number. The level lives in the title, not in a separate chip.
+        static ResultPopup BuildPopup(RectTransform canvas, GameObject buttonPrefab, GameController game, string name, string titleFormat, bool withStars)
         {
             RectTransform root = Rect(name, canvas);
             Stretch(root);
@@ -379,17 +382,13 @@ namespace TapPop.EditorTools
             RectTransform panel = Rect("Content", root);
             Stretch(panel);
 
-            RectTransform chip = Rect("Chip", panel);
-            Place(chip, Center, new Vector2(0f, 440f), new Vector2(200f, 64f));
-            Img(chip, "tag_title", Surface, TapPopPlaceholders.Pill, true);
-            TMP_Text levelLabel = TextAt(chip, "Text", "Level 1", 30f, Ink, Vector2.zero, new Vector2(200f, 64f));
-
-            TextAt(panel, "Title", title, 72f, Ink, new Vector2(0f, 340f), new Vector2(900f, 100f), Weight.Medium);
+            TMP_Text title = TextAt(panel, "Title", string.Format(titleFormat, 1), 72f, Ink, new Vector2(0f, 340f), new Vector2(960f, 100f), Weight.Medium);
 
             var fills = new List<RectTransform>();
             if (withStars)
             {
                 RectTransform row = Rect("Stars", panel);
+                Wire(popup, "starRow", row);
                 Place(row, Center, new Vector2(0f, 150f), new Vector2(600f, 160f));
                 for (int i = 0; i < 3; i++)
                 {
@@ -422,7 +421,8 @@ namespace TapPop.EditorTools
             Wire(popup, "group", group);
             Wire(popup, "panel", panel);
             Wire(popup, "scoreText", score);
-            Wire(popup, "levelText", levelLabel);
+            Wire(popup, "titleText", title);
+            WireString(popup, "titleFormat", titleFormat);
             Wire(popup, "primaryLabel", primary.GetComponentInChildren<TMP_Text>());
             WireArray(popup, "starFills", fills);
             return popup;
@@ -619,6 +619,13 @@ namespace TapPop.EditorTools
                         throw new InvalidOperationException($"TapPop: {target.GetType().Name}.{property.propertyPath} is not wired");
                 }
             }
+        }
+
+        static void WireString(Object target, string field, string value)
+        {
+            var so = new SerializedObject(target);
+            so.FindProperty(field).stringValue = value;
+            so.ApplyModifiedPropertiesWithoutUndo();
         }
 
         static void WireArray<T>(Object target, string field, IReadOnlyList<T> values) where T : Object
