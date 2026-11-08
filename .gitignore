@@ -1,0 +1,26 @@
+# Only the Unity project, its source art and the asset scripts belong in the repo.
+/*
+!/.gitignore
+!/README.md
+!/TapPop/
+!/figma-export/
+!/tools/
+
+# Unity: generated or per-machine
+/TapPop/[Ll]ibrary/
+/TapPop/[Tt]emp/
+/TapPop/[Oo]bj/
+/TapPop/[Ll]ogs/
+/TapPop/[Uu]ser[Ss]ettings/
+/TapPop/[Bb]uild/
+/TapPop/[Bb]uilds/
+/TapPop/[Mm]emory[Cc]aptures/
+/TapPop/.vs/
+/TapPop/.vscode/
+/TapPop/.idea/
+/TapPop/*.csproj
+/TapPop/*.sln
+/TapPop/*.slnx
+
+.DS_Store
+__pycache__/

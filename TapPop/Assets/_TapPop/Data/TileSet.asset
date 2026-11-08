@@ -1,0 +1,31 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 599c35699741c42caba7b1acc8dc7057, type: 3}
+  m_Name: TileSet
+  m_EditorClassIdentifier: Assembly-CSharp::TapPop.TileSet
+  tiles:
+  - id: red
+    sprite: {fileID: 21300000, guid: 386c95123a98747efbbf37633f5e79d4, type: 3}
+    color: {r: 1, g: 0.2196078, b: 0.2823529, a: 1}
+  - id: blue
+    sprite: {fileID: 21300000, guid: b776b7abdb52e44a297e8bd9a8f907cc, type: 3}
+    color: {r: 0.1607843, g: 0.4980392, b: 1, a: 1}
+  - id: green
+    sprite: {fileID: 21300000, guid: 28fb917de25864296954542a8c30bc54, type: 3}
+    color: {r: 0.1882353, g: 0.8431373, b: 0.3294118, a: 1}
+  - id: yellow
+    sprite: {fileID: 21300000, guid: cde2c56e03ed043cf82983bed532e6a0, type: 3}
+    color: {r: 1, g: 0.8313725, b: 0.07843137, a: 1}
+  - id: purple
+    sprite: {fileID: 21300000, guid: 1b7bf1d4cbe784740a99fc9cc139e5af, type: 3}
+    color: {r: 0.7137255, g: 0.2196078, b: 1, a: 1}
+  placeholder: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
